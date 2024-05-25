@@ -14,7 +14,7 @@ const chunks = {};
 var eloop = false;
 
 //0x00198a6c // Pixel 3a Android 9 offset
-const eloop_register_timeout = wpasup.base.add(ptr(0x0001e278)); // may need to change offset
+const eloop_register_timeout = wpasup.base.add(ptr(0x0002e1e4)); // may need to change offset
 Interceptor.attach(eloop_register_timeout, {
     onEnter: (args) => {
         console.log(`eloop_register_timeout(${args[0]}, ${args[1]}, ${args[2]}, ${args[3]}, ${args[4]})`);
