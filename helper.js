@@ -1,6 +1,7 @@
 // replace targets with your own addresses to track their frees/allocs
-//const targets = [ptr("0x7fb742e500"), ptr("0x7fb743d1c0")]; // Peloton NQY02A
-const targets = [ptr("0x7f36231a80"), ptr("0x7f3622e500")];   // Pixel 3a Android 9
+// const targets = [ptr("0x7fb742e500"), ptr("0x7fb743d1c0")]; // Peloton NQY02A
+// const targets = [ptr("0x7f36231a80"), ptr("0x7f3622e500")]; // Pixel 3a Android 9
+const targets = [ptr("0x7fb6e32780"), ptr("0x7f3622e500")];   // Nexus 6P
 
 function is_target(x) {
     // check target-0x20 as that is where we will free / overwrite
