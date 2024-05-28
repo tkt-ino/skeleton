@@ -23,6 +23,16 @@ Interceptor.attach(eloop_register_timeout, {
     }
 });
 
+const wpabuf_alloc_copy = wpasup.base.add(ptr(0x00028bb8));
+Interceptor.attach(wpabuf_alloc_copy, {
+    onEnter: (args) => {
+        console.log(`wpabuf_alloc_copy(${args[0]}, ${args[1]})`);
+    },
+    onLeave: (ret) => {
+        console.log(`struct wpabuf *buf => ${ret}`);
+    }
+});
+
 // alloc functions
 const allocs = {
     "calloc": 1,
