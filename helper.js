@@ -27,15 +27,23 @@ var eloop = false;
 const wpabuf_alloc_copy = wpasup.base.add(ptr(0x00028bb8));
 Interceptor.attach(wpabuf_alloc_copy, {
     onEnter: (args) => {
-        // console.log(`wpabuf_alloc_copy(${args[0]}, ${args[1]})`);
+        console.log(`wpabuf_alloc_copy(${args[0]}, ${args[1]})`);
 		this.size = args[1];
     },
     onLeave: (ret) => {
+		// console.log(this.size);
 		if (this.size == 0x60) {
 			// console.log(`eloop_timeout is overwritten`);
 			console.log(`struct wpabuf *buf => ${ret}`);
 			console.log(hexdump(ret));
 		}
+    }
+});
+
+const p2p_set_dev_name = wpasup.base.add(ptr(0x00060c3c));
+Interceptor.attach(p2p_set_dev_name, {
+    onEnter: (args) => {
+        console.log(`p2p_set_dev_name(${args[0]}, ${args[1]})`);
     }
 });
 
