@@ -1,7 +1,7 @@
 from scapy.all import *
 
-iface = 'wlp4s0mon'           # interface in monitor mode
-target = 'ac:04:0b:e9:30:69'  # target MAC address
+iface = 'wlan0'           # interface in monitor mode
+target = '50:68:0a:09:28:e1'  # target MAC address
 mac = RandMAC()               # (fake) mac address of source 
 
 dot11 = Dot11FCS(addr1=target, addr2=mac)

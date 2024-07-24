@@ -1,0 +1,13 @@
+eloop_register_timeout @ 0x2e1e4
+eloop_timeout @ 0x7fb6e32780
+
+eloop @ 0x1f0000 + 0x720
+eloop.timeout @ eloop + 0x50
+
+wpa_printf @ 0x27d48
+
+base address: 0x55831ab000
+
+output of logcat:
+	wpa_supplicant: nl80211: wpa_driver_nl80211_event_receive->nl_recvmsgs failed: -3
+
