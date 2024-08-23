@@ -11,3 +11,6 @@ base address: 0x55831ab000
 output of logcat:
 	wpa_supplicant: nl80211: wpa_driver_nl80211_event_receive->nl_recvmsgs failed: -3
 
+src/p2p/p2p.c
+	int p2p_add_wps_vendor_extension(struct p2p_data *p2p, const struct wpabuf *vendor_ext)
+
